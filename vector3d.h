@@ -53,6 +53,12 @@ public:
         output << "X = " << rhs.x << ", Y = " << rhs.y << ", Z = " << rhs.z;
         return output;
     }
+    friend std::istream& operator>> (std::istream& is, gsl::Vector3D& v)
+    {
+        char temp, temp2, temp3, temp4;
+        is >> temp >> v.x >> temp2 >> v.y >> temp3 >> v.z >> temp4;
+        return is;
+    }
     //private:  //Making these public to avoid having to do things like setY(getY()+3) etc.
     float x;
     float y;
