@@ -23,7 +23,15 @@ class Delaunay
 public:
     Delaunay();
 
-    static std::vector<Triangle> Triangulate(const std::vector<gsl::Vector3D>& vertices);
+    //sjekker om x på punkt a er mindre enn b, hvis de er like, sjekker den y også
+    static bool compare(gsl::Vector3D a, gsl::Vector3D b);
+
+    static std::vector<Triangle> Triangulate(std::vector<gsl::Vector3D> vertices);
+
+private:
+    static std::vector<Triangle> makeTriangles(std::vector<gsl::Vector3D> vertices);
+    static std::vector<unsigned int> convex_hull(std::vector<std::pair<gsl::Vector3D, unsigned int>> P);
+    static float cross(const gsl::Vector3D &O, const gsl::Vector3D &A, const gsl::Vector3D &B);
 };
 
 #endif // DELAUNAY_H
