@@ -12,4 +12,6 @@ SOURCES += \
 HEADERS += \
     delaunay.h \
     regular.h \
-    vector3d.h
+    vector3d.h \
+    sweepline.h 
+
