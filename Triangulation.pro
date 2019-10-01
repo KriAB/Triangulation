@@ -5,9 +5,13 @@ CONFIG -= qt
 
 SOURCES += \
         delaunay.cpp \
+        filereadertxt.cpp \
         main.cpp \
-        regular.cpp
+        regular.cpp \
+        vector3d.cpp
 
 HEADERS += \
     delaunay.h \
-    regular.h
+    filereadertxt.h \
+    regular.h \
+    vector3d.h
