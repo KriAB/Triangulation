@@ -6,8 +6,10 @@ CONFIG -= qt
 SOURCES += \
         delaunay.cpp \
         main.cpp \
-        regular.cpp
+        regular.cpp \
+        vector3d.cpp
 
 HEADERS += \
     delaunay.h \
-    regular.h
+    regular.h \
+    vector3d.h
