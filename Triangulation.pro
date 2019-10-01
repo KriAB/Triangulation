@@ -10,4 +10,5 @@ SOURCES += \
 
 HEADERS += \
     delaunay.h \
-    regular.h
+    regular.h \
+    sweepline.h
