@@ -176,27 +176,27 @@ int main()
     ptvec.push_back(pt9);
     ptvec.push_back(pt10);
 
-//    convex_hull(ptvec);
+    convex_hull(ptvec);
 
-//    //    int a = 0;
-//    //    for(int i = 6; i >= 0; i-- )
-//    //    {
-//    //      cout << "X: "<< ptvec[a].x << " Y: " << ptvec[a].y << endl;
-//    //      a++;
-//    //    }
+//        int a = 0;
+//        for(int i = 6; i >= 0; i-- )
+//        {
+//          cout << "X: "<< ptvec[a].x << " Y: " << ptvec[a].y << endl;
+//          a++;
+//        }
 //    cout << "Hello World!" << endl;
 
 myPoint::SweepLine<double> One;
 
-One.insertPoint(1, 0, 0);
-One.insertPoint(0, 0, 0);
-One.insertPoint(2, 0, 0);
-One.insertPoint(1, 3, 0);
-One.insertPoint(1, 2, 0);
-One.insertPoint(0, 1, 0);
-One.insertPoint(0, 1, 5);
-One.insertPoint(0, 1, 4);
-One.insertPoint(0, 0, 5);
-One.print();
+//One.insertPoint(1, 0, 0);
+//One.insertPoint(0, 0, 0);
+//One.insertPoint(2, 0, 0);
+//One.insertPoint(1, 3, 0);
+//One.insertPoint(1, 2, 0);
+//One.insertPoint(0, 1, 0);
+//One.insertPoint(0, 1, 5);
+//One.insertPoint(0, 1, 4);
+//One.insertPoint(0, 0, 5);
+//One.print();
     return 0;
 }
