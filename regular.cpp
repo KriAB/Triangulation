@@ -52,7 +52,7 @@ bool Regular::compare(gsl::Vector3D a, gsl::Vector3D b)
     return false;
 }
 
-void Regular::makeTriangles(int numInterval)
+void Regular::makeTriangles(unsigned int numInterval)
 {
     //- Skal lage et rutenett basert på min og max verdier og delt opp i x interval.
     //- Først sortere punktene.
@@ -62,34 +62,70 @@ void Regular::makeTriangles(int numInterval)
     calcLength();
     intervalX = lengthX/numInterval;
     intervalZ = lengthZ/numInterval;
-    // - lage standard punkter, som ikke er i noen triangler enda. Trianguleringen skjer etter dette
+    // - lage standard punkter, som ikke er i noen triangler enda.
     makeTempPoints(numInterval);
-    // - finne nærmeste punkt til hvert egensatte punkt og bruke høyden til dette punktet
+    // - finne nærmeste punkt fra LAS til hvert egensatte punkt og bruke høyden til LAS punktet
+    //Jo større interval, jo likere LAS planet. Men det vil ta veldig lang tid.
     setHeight();
     // - lage  triangler, kunne brukt indices?
 
     //man vet antal punkt på hver linje, for det er numInterval
     //så finne en sammenheng
-    for(int i = 0; i<numInterval; i++)
+    std::vector <gsl::Vector3D> list1;
+    std::vector <gsl::Vector3D> list2;
+    unsigned int numTemp =0;
+    //Sette liste 1 og 2 først
+    //liste 1 putter du første linje med punktene
+    //liste 2 putter du andre linje med punktene
+    for(unsigned int j = numTemp; j < numInterval; j++)
     {
+        list1.push_back(tempCoords.at(j));
+        list2.push_back(tempCoords.at(j+numInterval));
+    }
+    numTemp = numTemp + (2*numInterval);
+    for(unsigned int i = 0; i < numInterval-1; i++)
+    {
+        //Triangulerer så de to listene med hverandre.
+        //T0: L10 L20 L21 T1: L10 L21 L11,
 
-        //Kunne lagd to lister
-        //liste 1 putter du første linje med punktene
-        //liste 2 putter du andre linje med punktene
-       //Triangulerer så de to listene med hverandre.
+        for(unsigned int j = 0; j <numInterval-1; j++)
+        {
+            finalTriangles.push_back(list1.at(j));
+            finalTriangles.push_back(list2.at(j));
+            finalTriangles.push_back(list2.at(j+1));
+
+            finalTriangles.push_back(list1.at(j));
+            finalTriangles.push_back(list2.at(j+1));
+            finalTriangles.push_back(list1.at(j+1));
+        }
+
         //så setter man liste 1 = liste 2 og tømmer liste 2.
+        list1.empty();
+        list1 = list2;
+        list2.empty();
         //så setter man liste 2 til linje 3 osv.
+        for(unsigned int j = numTemp; j < numInterval; j++)
+        {
+          list2.push_back(tempCoords.at(j+numInterval));
+        }
+        if(list2.size() != numInterval)
+        {
+            std::cout << "Something wrong with Triangulation" << std::endl;
+            break;
+        }
+        numTemp = numTemp+numInterval;
     }
 
+
 }
-void Regular::makeTempPoints(int numInterval)
+void Regular::makeTempPoints(unsigned int numInterval)
 {
-//lage punktene bortover z aksen, så øke x, så lage de neste punktene
+    //lage punktene bortover z aksen, så øke x, så lage de neste punktene
     float tempIntX = minX; //  + intervalX
     float tempIntZ = minZ; // + intervalZ;
-    for(int i = 0; i < numInterval; i++)
+    for(unsigned int i = 0; i < numInterval; i++)
     {
-        for(int j = 0; j < numInterval; j++)
+        for(unsigned int j = 0; j < numInterval; j++)
         {
             tempCoords.push_back(gsl::Vector3D(tempIntX, 0, tempIntZ));
             tempIntZ = tempIntZ+intervalZ;
@@ -108,14 +144,16 @@ void Regular::setHeight()
     float lengthBetABTempX;
     float lengthBetABTempZ;
     //Finne punktene som er nærmest de faste punktene
+    int atNum = 0;
+    int tempNum = 0;
     for(int i = 0; i < tempCoords.size(); i++)
     {
         // dyrt å gå igjennom hele listen hver gang
         //finne en bedre løsning
-        for(int j = 0; j < LASCoords.size(); j++)
+        for(int j = atNum; j < LASCoords.size(); j++)
         {
-           lengthBetABTempX = fabs(tempCoords.at(i).x - LASCoords.at(j).x);
-          lengthBetABTempZ = fabs(tempCoords.at(i).z - LASCoords.at(j).z);
+            lengthBetABTempX = fabs(tempCoords.at(i).x - LASCoords.at(j).x);
+            lengthBetABTempZ = fabs(tempCoords.at(i).z - LASCoords.at(j).z);
             //hvis det er lengre lengde mellom neste enn forige så har man funnet punktet(siden de er sortert)?
             if(lengthBetABx > lengthBetABTempX && lengthBetABz > lengthBetABTempZ )
             {
@@ -128,9 +166,10 @@ void Regular::setHeight()
                 tempCoords.at(i).y = LASCoords.at(j).y;
                 break;
             }
+            tempNum = j;
         }
 
-
+       atNum = tempNum; //For å slippe å itterere igjennom heler hver gang.
     }
 
 }
