@@ -13,6 +13,7 @@ public:
     bool compare(gsl::Vector3D a,gsl::Vector3D b);
     void makeTriangles(int numInterval);
     void makeTempPoints(int numInterval);
+    void setHeight();
 
 void calcLength();
 
