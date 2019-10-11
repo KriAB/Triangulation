@@ -66,7 +66,7 @@ void Regular::makeTriangles(int numInterval)
     makeTempPoints(numInterval);
     // - finne nærmeste punkt til hvert egensatte punkt og bruke høyden til dette punktet
 
-    // - lage  triangler
+    // - lage  triangler, kunne brukt indices?
 
     for(int i = 0; i<numInterval; i++)
     {
@@ -77,7 +77,7 @@ void Regular::makeTriangles(int numInterval)
 
 void Regular::makeTempPoints(int numInterval)
 {
-
+//lage punktene bortover z aksen, så øke x, så lage de neste punktene
     float tempIntX = minX; //  + intervalX
     float tempIntZ = minZ; // + intervalZ;
     for(int i = 0; i < numInterval; i++)
@@ -85,6 +85,7 @@ void Regular::makeTempPoints(int numInterval)
         for(int j = 0; j < numInterval; j++)
         {
 
+            tempCoords.push_back(gsl::Vector3D(tempIntX, 0, tempIntZ));
             tempIntZ = tempIntZ+intervalZ;
         }
         tempIntZ = minZ;
