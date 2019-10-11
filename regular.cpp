@@ -4,40 +4,41 @@ Regular::Regular()
 {
 
 }
-//En treig sorterings algoritme
+//En treig sorterings algoritme, må finne en bedre
 void Regular::sort()
 {
-    minX = tempCoords.at(0).x;
-    maxX = tempCoords.at(0).x;
-    minY = tempCoords.at(0).y;
-    maxY = tempCoords.at(0).y;
-    minZ = tempCoords.at(0).z;
-    maxZ = tempCoords.at(0).z;
+    minX = LASCoords.at(0).x;
+    maxX = LASCoords.at(0).x;
+    minY = LASCoords.at(0).y;
+    maxY = LASCoords.at(0).y;
+    minZ = LASCoords.at(0).z;
+    maxZ = LASCoords.at(0).z;
 
-    for( int startIndex = 0; startIndex < tempCoords.size(); ++ startIndex)
+    for( int startIndex = 0; startIndex < LASCoords.size(); ++ startIndex)
     {
         int smallestIndex = startIndex;
-        for(int currIndex = startIndex + 1; currIndex < tempCoords.size(); ++currIndex)
+        for(int currIndex = startIndex + 1; currIndex < LASCoords.size(); ++currIndex)
         {
-            if(compare(tempCoords[currIndex], tempCoords[smallestIndex]) == true)
+            if(compare(LASCoords[currIndex], LASCoords[smallestIndex]) == true)
             {
                 smallestIndex = currIndex;
             }
         }
-        std::swap(tempCoords[startIndex], tempCoords[smallestIndex]);
+        std::swap(LASCoords[startIndex], LASCoords[smallestIndex]);
 
-        if(tempCoords.at(startIndex).x < minX)
-            minX = tempCoords.at(startIndex).x;
+        //sette min og max verdier
+        if(LASCoords.at(startIndex).x < minX)
+            minX = LASCoords.at(startIndex).x;
         else
-            maxX = tempCoords.at(startIndex).x;
-        if(tempCoords.at(startIndex).y < minY)
-            minY = tempCoords.at(startIndex).y;
+            maxX = LASCoords.at(startIndex).x;
+        if(LASCoords.at(startIndex).y < minY)
+            minY = LASCoords.at(startIndex).y;
         else
-            maxY = tempCoords.at(startIndex).y;
-        if(tempCoords.at(startIndex).z < minZ)
-            minZ = tempCoords.at(startIndex).z;
+            maxY = LASCoords.at(startIndex).y;
+        if(LASCoords.at(startIndex).z < minZ)
+            minZ = LASCoords.at(startIndex).z;
         else
-            maxZ = tempCoords.at(startIndex).z;
+            maxZ = LASCoords.at(startIndex).z;
     }
 }
 
@@ -62,18 +63,34 @@ void Regular::makeTriangles(int numInterval)
     intervalX = lengthX/numInterval;
     intervalZ = lengthZ/numInterval;
     // - lage standard punkter, som ikke er i noen triangler enda. Trianguleringen skjer etter dette
-    makeTempPoints();
+    makeTempPoints(numInterval);
     // - finne nærmeste punkt til hvert egensatte punkt og bruke høyden til dette punktet
+
     // - lage  triangler
 
+    for(int i = 0; i<numInterval; i++)
+    {
 
-
-
+    }
 
 }
 
-void Regular::makeTempPoints()
+void Regular::makeTempPoints(int numInterval)
 {
+
+    float tempIntX = minX; //  + intervalX
+    float tempIntZ = minZ; // + intervalZ;
+    for(int i = 0; i < numInterval; i++)
+    {
+        for(int j = 0; j < numInterval; j++)
+        {
+
+            tempIntZ = tempIntZ+intervalZ;
+        }
+        tempIntZ = minZ;
+        tempIntX = tempIntX+intervalX;
+
+    }
 
 }
 
