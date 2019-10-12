@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "sweepline.h"
 #include "delaunay.h"
+#include "regular.h"
 using namespace std;
 
 
@@ -123,82 +124,91 @@ int union_area(event events_v[],event events_h[],int n,int e)
 
 int main()
 {
-//    // Create
-//    ////  vector< vector<int> > vec(4, vector<int>(4));
-//    // Write
-//    // vec[2][3] = 10;
-//    // Read
-//    //int a = vec[2][3];
-//    Point pt1;
-//    pt1.x = 0;
-//    pt1.y = 1;
+    //    // Create
+    //    ////  vector< vector<int> > vec(4, vector<int>(4));
+    //    // Write
+    //    // vec[2][3] = 10;
+    //    // Read
+    //    //int a = vec[2][3];
+    //    Point pt1;
+    //    pt1.x = 0;
+    //    pt1.y = 1;
 
-//    Point pt2;
-//    pt2.x = 1;
-//    pt2.y = 0;
+    //    Point pt2;
+    //    pt2.x = 1;
+    //    pt2.y = 0;
 
-//    Point pt3;
-//    pt3.x= 2;
-//    pt3.y = 0;
+    //    Point pt3;
+    //    pt3.x= 2;
+    //    pt3.y = 0;
 
-//    Point pt4;
-//    pt4.x=3;
-//    pt4.y=1;
-//    Point pt5;
-//    pt5.x =0;
-//    pt5.y =0;
-//    Point pt6;
-//    pt6.x = 1;
-//    pt6.y = 1;
-//    Point pt7;
-//    pt7.x = 4;
-//    pt7.y = 5;
-//    Point pt8;
-//    pt8.x = 6;
-//    pt8.y = 0;
-//    Point pt9;
-//    pt9.x = 2;
-//    pt9.y = 2;
+    //    Point pt4;
+    //    pt4.x=3;
+    //    pt4.y=1;
+    //    Point pt5;
+    //    pt5.x =0;
+    //    pt5.y =0;
+    //    Point pt6;
+    //    pt6.x = 1;
+    //    pt6.y = 1;
+    //    Point pt7;
+    //    pt7.x = 4;
+    //    pt7.y = 5;
+    //    Point pt8;
+    //    pt8.x = 6;
+    //    pt8.y = 0;
+    //    Point pt9;
+    //    pt9.x = 2;
+    //    pt9.y = 2;
 
-//    Point pt10;
-//    pt10.x =3;
-//    pt10.y=2;
+    //    Point pt10;
+    //    pt10.x =3;
+    //    pt10.y=2;
 
 
-//    vector<Point> ptvec;
-//    ptvec.push_back(pt1);
-//    ptvec.push_back(pt2);
-//    ptvec.push_back(pt3);
-//    ptvec.push_back(pt4);
-//    ptvec.push_back(pt5);
-//    ptvec.push_back(pt6);
-//    ptvec.push_back(pt7);
-//    ptvec.push_back(pt8);
-//    ptvec.push_back(pt9);
-//    ptvec.push_back(pt10);
+    //    vector<Point> ptvec;
+    //    ptvec.push_back(pt1);
+    //    ptvec.push_back(pt2);
+    //    ptvec.push_back(pt3);
+    //    ptvec.push_back(pt4);
+    //    ptvec.push_back(pt5);
+    //    ptvec.push_back(pt6);
+    //    ptvec.push_back(pt7);
+    //    ptvec.push_back(pt8);
+    //    ptvec.push_back(pt9);
+    //    ptvec.push_back(pt10);
 
-//    convex_hull(ptvec);
+    //    convex_hull(ptvec);
 
-////        int a = 0;
-////        for(int i = 6; i >= 0; i-- )
-////        {
-////          cout << "X: "<< ptvec[a].x << " Y: " << ptvec[a].y << endl;
-////          a++;
-////        }
-////    cout << "Hello World!" << endl;
+    ////        int a = 0;
+    ////        for(int i = 6; i >= 0; i-- )
+    ////        {
+    ////          cout << "X: "<< ptvec[a].x << " Y: " << ptvec[a].y << endl;
+    ////          a++;
+    ////        }
+    ////    cout << "Hello World!" << endl;
 
-//myPoint::SweepLine<double> One;
+    //myPoint::SweepLine<double> One;
 
-////One.insertPoint(1, 0, 0);
-////One.insertPoint(0, 0, 0);
-////One.insertPoint(2, 0, 0);
-////One.insertPoint(1, 3, 0);
-////One.insertPoint(1, 2, 0);
-////One.insertPoint(0, 1, 0);
-////One.insertPoint(0, 1, 5);
-////One.insertPoint(0, 1, 4);
-////One.insertPoint(0, 0, 5);
-////One.print();
+    ////One.insertPoint(1, 0, 0);
+    ////One.insertPoint(0, 0, 0);
+    ////One.insertPoint(2, 0, 0);
+    ////One.insertPoint(1, 3, 0);
+    ////One.insertPoint(1, 2, 0);
+    ////One.insertPoint(0, 1, 0);
+    ////One.insertPoint(0, 1, 5);
+    ////One.insertPoint(0, 1, 4);
+    ////One.insertPoint(0, 0, 5);
+    ////One.print();
+
+    //    std::vector<gsl::Vector3D> vertices{
+    //        {0.f, 2.f, 1.f},
+    //        {-3.f, 2.f, 3.f},
+    //        {2.f, 2.f, 3.f},
+    //        {2.f, 5.f, 0.f},
+    //        {3.f, 0.f, -2.f},
+    //        {2.f, -5.f, 2.f}
+    //    };
 
     std::vector<gsl::Vector3D> vertices{
         {0.f, 2.f, 1.f},
@@ -206,10 +216,16 @@ int main()
         {2.f, 2.f, 3.f},
         {2.f, 5.f, 0.f},
         {3.f, 0.f, -2.f},
-        {2.f, -5.f, 2.f}
+        {2.f, -10.f, 2.f},
+        {2.f, -5.f, 4.f},
+        {4.f, -5.f, 2.f}
     };
 
-    Delaunay::Triangulate(vertices);
+    Regular reg(vertices);
+    reg.makeTriangles(2);
+
+
+  //  Delaunay::Triangulate(vertices);
 
     return 0;
 }

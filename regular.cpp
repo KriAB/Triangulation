@@ -4,6 +4,11 @@ Regular::Regular()
 {
 
 }
+
+Regular::Regular(std::vector<gsl::Vector3D> LAS)
+{
+   LASCoords = LAS;
+}
 //En treig sorterings algoritme, må finne en bedre
 void Regular::sort()
 {
@@ -54,6 +59,18 @@ bool Regular::compare(gsl::Vector3D a, gsl::Vector3D b)
 
 void Regular::makeTriangles(unsigned int numInterval)
 {
+    if(numInterval < 2)
+    {
+        std::cout << "Number of Interval is to small for the triangulation!"<< std::endl;
+    }
+    if(LASCoords.size() == 0)
+    {
+        std::cout << "No LAS coordinates!" << std::endl;
+    }
+    else
+    {
+
+
     //- Skal lage et rutenett basert på min og max verdier og delt opp i x interval.
     //- Først sortere punktene.
     sort();
@@ -82,31 +99,35 @@ void Regular::makeTriangles(unsigned int numInterval)
         list1.push_back(tempCoords.at(j));
         list2.push_back(tempCoords.at(j+numInterval));
     }
+    int n = 0;
     numTemp = numTemp + (2*numInterval);
     for(unsigned int i = 0; i < numInterval-1; i++)
     {
         //Triangulerer så de to listene med hverandre.
         //T0: L10 L20 L21 T1: L10 L21 L11,
-
         for(unsigned int j = 0; j <numInterval-1; j++)
         {
+            std::cout << "T" << n << " | " << list1.at(j).x <<" " << list1.at(j).z <<" | " << list2.at(j).x << "," << list2.at(j).z << " | " << list2.at(j+1).x << "," << list2.at(j+1).z << std::endl;
             finalTriangles.push_back(list1.at(j));
             finalTriangles.push_back(list2.at(j));
             finalTriangles.push_back(list2.at(j+1));
-
+            n++;
+              std::cout << "T" << n << " | "<< list1.at(j).x <<" " << list1.at(j).z <<" | " << list2.at(j+1).x << "," << list2.at(j+1).z << " | " << list1.at(j+1).x <<  "," << list1.at(j+1).z << std::endl;
             finalTriangles.push_back(list1.at(j));
             finalTriangles.push_back(list2.at(j+1));
             finalTriangles.push_back(list1.at(j+1));
-        }
 
+            n++;
+        }
+        //TODO: finne feilen
         //så setter man liste 1 = liste 2 og tømmer liste 2.
         list1.empty();
         list1 = list2;
         list2.empty();
         //så setter man liste 2 til linje 3 osv.
-        for(unsigned int j = numTemp; j < numInterval; j++)
+        for(unsigned int j = 0; j < numInterval; j++)
         {
-          list2.push_back(tempCoords.at(j+numInterval));
+          list2.push_back(tempCoords.at(j+numTemp));
         }
         if(list2.size() != numInterval)
         {
@@ -115,7 +136,7 @@ void Regular::makeTriangles(unsigned int numInterval)
         }
         numTemp = numTemp+numInterval;
     }
-
+ }
 
 }
 void Regular::makeTempPoints(unsigned int numInterval)
@@ -160,6 +181,7 @@ void Regular::setHeight()
                 newCoord = LASCoords.at(j);
                 lengthBetABx = lengthBetABTempX;
                 lengthBetABz = lengthBetABTempZ;
+
             }
             else
             {
@@ -184,4 +206,9 @@ void Regular::calcLength()
 std::vector<gsl::Vector3D> Regular::getFinalTriangles() const
 {
     return finalTriangles;
+}
+
+void Regular::setLASCoords(std::vector<gsl::Vector3D> &value)
+{
+    LASCoords = value;
 }
